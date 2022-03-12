@@ -14,6 +14,24 @@
 	--nextbutton-bgcolor: #6687F4;
 	--default-font: 'Poppins', sans-serif;
 }
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+	cursor: pointer;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+	cursor: pointer;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: transparent;
+	border-radius: 1rem;
+	cursor: pointer;
+}
 
 *{ padding: 0; margin: 0; box-sizing: border-box; transition: all ease .3s; }
 html, body{width: 100vw; height: 100vh; overflow: hidden; font-family: var(--default-font);}
@@ -28,6 +46,32 @@ main{
 body{
 	background-color: var(--body-color);
 }
+a{
+	text-decoration: none;
+	display: inline-block;
+}
+.back a{
+	color: var(--backbutton-color);
+	padding: .5rem 1rem;
+	border-radius: .25rem;
+	font-weight: bold;
+	font-size: 1.25rem;
+	cursor: pointer;
+	background-color: var(--backbutton-bgcolor);
+}
+.next a{
+	color: white;
+	padding: .85rem 2rem;
+	border-radius: .5rem;
+	font-weight: bold;
+	min-width: max-content;
+	cursor: pointer;
+	background-color: var(--nextbutton-bgcolor);
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 .container{
 	width: 100%;
 	max-width: 1200px;
@@ -36,4 +80,19 @@ body{
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+}
+.baunceAnimation{
+	animation: bounce .3s infinite alternate;
+}
+
+@keyframes bounce {
+	0% {
+		transform: translateX(0px);
+	}
+	50% {
+		transform: translateX(5px);
+	}
+	100% {
+		transform: translateX(0px);
+	}
 }

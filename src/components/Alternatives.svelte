@@ -1,27 +1,53 @@
 <script>
-  export let alternatives;
+  import { statusApp } from '../lib/stores';
+  export let question;
 
+  let clear = false;
+  $: options = Object.values(question.options);
+
+  const updateResponses = e => {
+    console.log($statusApp.questionnaires)
+  }
+
+  const checkAlternatives = e => {
+    let cbxes = [];
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {if(checkbox.checked == true) cbxes.push(checkbox)});
+    clear = cbxes.length > 0 ? true : false;
+
+    if(cbxes.length > question.quantity_to_select){
+      e.preventDefault();
+      cbxes.forEach(checkbox => {
+        if(checkbox != e.target){
+          checkbox.parentNode.classList.add("baunceAnimation");
+          setTimeout(() => {
+            checkbox.parentNode.classList.remove("baunceAnimation");
+          }, 600);
+        } 
+      });
+    };
+  }
   const clearAllAlternatives = () => {
-    console.log('s')
-    document.querySelectorAll('input[type="radio"]').forEach(checkbox => {
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
       checkbox.checked = false;
     });
   }
 </script>
 
 <div class="alternatives-container">
-  {#each alternatives as alternative, i}
-    <label for="alternative-{i}" class="alternative">
-      <input class="radio-input" type="radio" name="alternative" id="alternative-{i}">
+  {#each options as alternative, i}
+    <label for="alternative-{i}" class="alternative" on:click={checkAlternatives}>
+      <input class="radio-input" on:change={updateResponses} data-value={Object.keys(question.options)[i]} type="checkbox" name="alternative" id="alternative-{i}">
       <span class="text-alternative">{alternative}</span>
     </label>
   {/each}
 </div>
 
 <span class="reset">
-  <div class="reset-button" on:click={clearAllAlternatives}>
-    <i class="fa-solid fa-arrows-rotate"></i> Clear alternative
-  </div>
+  {#if clear}
+    <div class="reset-button" on:click={clearAllAlternatives}>
+      <i class="fa-solid fa-arrows-rotate"></i> clear Selection
+    </div>
+  {/if}
 </span>
 
 <style>
@@ -37,6 +63,7 @@
     align-items: center;
     justify-content: flex-start;
     cursor: pointer;
+    user-select: none;
   }
   .text-alternative{
     margin-left: .5rem;
@@ -83,6 +110,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    min-height: 50px;
   }
   .reset-button{ 
     padding: .5rem 1rem;

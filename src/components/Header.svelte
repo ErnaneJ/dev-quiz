@@ -1,6 +1,15 @@
+<script>
+  import { Link } from "svelte-navigator";
+  import { statusApp } from '../lib/stores';
+</script>
+
+<svelte:head>
+  <title>&#60;Dev.Quiz/&#62; | {$statusApp.currentQuiz?.title ?? "Questionnaires available"}</title>
+</svelte:head>
+
 <header>
-  <div class="logo">&#60;Dev.Quiz/&#62;</div>
-  <div class="page-name">Personality Survey Quiz</div>
+  <Link to="/"><div class="logo">&#60;Dev.Quiz/&#62;</div></Link>
+  <div class="page-name">{$statusApp.currentQuiz?.title ?? "Questionnaires available"}</div>
   <button class="save-progress">Save Progress</button>
 </header>
 

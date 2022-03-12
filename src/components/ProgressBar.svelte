@@ -1,10 +1,30 @@
 <script>
-  let percent = 48.75;
+  import { Link, useParams } from "svelte-navigator";
+  import { statusApp } from '../lib/stores';
+
+  export let countQuestions;
+
+  let msgButton = "Next question";
+  
+  $: params = useParams();
+  $: percent = parseInt($statusApp.currentQuestionId) == 1 ? 0 : (parseInt($statusApp.currentQuestionId) * 100)/countQuestions;
+
+  $: backQuestion = () => {
+    if(parseInt($statusApp.currentQuestionId) == 2) return `/quiz/${$params.quiz}/`;
+    if(parseInt($statusApp.currentQuestionId) > 1) return `/quiz/${$params.quiz}/question/${$statusApp.currentQuestionId-1}`;
+    return `/quiz/${$params.quiz}/`;
+  }
+  $: nextQuestion = () => {
+    if(parseInt($statusApp.currentQuestionId) == parseInt(countQuestions)) {msgButton = "Check result! "; return `/quiz/${$params.quiz}/result`};
+    if(parseInt($statusApp.currentQuestionId) < parseInt(countQuestions)) {msgButton = "Next question"; return `/quiz/${$params.quiz}/question/${$statusApp.currentQuestionId+1}`};
+  }
 </script>
 
 <div class="progressbar-container">
   <div class="back">
-    <i class="fa-solid fa-arrow-left"></i>
+    <Link to="{backQuestion()}">
+      <i class="fa-solid fa-arrow-left"></i>
+    </Link>
   </div>
   <div class="progress">
     <div class="bar" style="width:{percent}%"></div>
@@ -13,7 +33,9 @@
     </span>
   </div>
   <div class="next">
-    <span>Next question</span> <i class="fa-solid fa-arrow-right"></i>
+    <Link to="{nextQuestion()}">
+      <span>{msgButton}</span> <i class="fa-solid fa-arrow-right"></i>
+    </Link>
   </div>
 </div>
 
@@ -31,15 +53,6 @@
     box-shadow: 0px 1px 3px grey;
     padding: .25rem .5rem;
     gap: 1rem;
-  }
-  .back{
-    color: var(--backbutton-color);
-    padding: .5rem 1rem;
-    border-radius: .25rem;
-    font-weight: bold;
-    font-size: 1.25rem;
-    cursor: pointer;
-    background-color: var(--backbutton-bgcolor);
   }
 
   .progress {
@@ -71,20 +84,7 @@
     cursor: pointer;
     background-color: var(--primary-color);
   }
-
-  .next{
-    color: white;
-    padding: .85rem 2rem;
-    border-radius: .5rem;
-    font-weight: bold;
-    min-width: max-content;
-    cursor: pointer;
-    background-color: var(--nextbutton-bgcolor);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  .next *{ color: white; }
   .fa-arrow-right{
     margin-left: .75rem;
     font-size: 1.25rem;

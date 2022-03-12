@@ -19,6 +19,7 @@
     color: var(--secondary-color);
     font-size: 2.5rem;
     font-weight: 600;
+    text-align: center;
     font-family: 'Times New Roman', Times, serif
   }
   .subtitle{
