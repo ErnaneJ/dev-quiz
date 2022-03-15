@@ -57,7 +57,7 @@
     border-radius: .5rem;
     background-color: white;
     position: absolute;
-    bottom: 2rem;
+    bottom: 3.5rem;
     box-shadow: 0px 1px 3px grey;
     padding: .25rem .5rem;
     gap: 1rem;

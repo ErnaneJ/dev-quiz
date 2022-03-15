@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w -s",
-    "start": "sirv public --no-clear -s",
+    "build": "rollup -c --single",
+    "dev": "rollup -c -w --single",
+    "start": "sirv public --single",
     "export": "node ./factory/generateQuestions.js"
   },
   "devDependencies": {
