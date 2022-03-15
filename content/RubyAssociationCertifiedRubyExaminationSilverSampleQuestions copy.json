@@ -3,6 +3,7 @@
   "description": "This is a basic skill-level certification of the knowledge on the background, grammar, classes, objects, and standard libraries of Ruby.", 
   "theme": "Language Ruby",
   "version": "2.1",
+  "language": "en",
   "cover_image": "https://www.ruby.or.jp/assets/images/ja/certification/examination/logo_gold_v21.png",
   "questions": [
     {
@@ -18,7 +19,8 @@
       "answer": {
         "options": ["a", "b"],
         "description": "In Ruby, all objects have a logical value for use in conditional statements.\nThe objects false and nil are treated as logically false, all other objects are treated as logically true."
-      }
+      },
+      "topics": ["objects", "Conditional statements"]
     },
     {
       "statement": "Which of the following are reserved words in Ruby?",

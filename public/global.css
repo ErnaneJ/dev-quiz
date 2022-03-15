@@ -50,6 +50,14 @@ a{
 	text-decoration: none;
 	display: inline-block;
 }
+code{
+	border-radius: .5rem;
+  margin-top: 2rem;
+	margin-bottom: -1rem;
+	display: block;
+  width: 100%;
+	padding: 1rem 1.5rem !important;
+}
 .back a{
 	color: var(--backbutton-color);
 	padding: .5rem 1rem;
@@ -72,6 +80,7 @@ a{
 	align-items: center;
 	justify-content: center;
 }
+.action a{display: flex; align-items: center; justify-content: center; gap: .5rem; color: white}
 .container{
 	width: 100%;
 	max-width: 1200px;

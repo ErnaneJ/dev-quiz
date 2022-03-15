@@ -1,40 +1,72 @@
 <script>
-  import { statusApp } from '../lib/stores';
+  import { fly } from 'svelte/transition';
+  import { progressQuestionnaires, statusApp, questionnaires } from '../lib/stores';
   import { Link } from "svelte-navigator";
-  export let quiz;
+  import { sanitarizeString } from '../lib/helper'
+  export let quiz, id;
 
-  const link = () => {
-    return quiz.title.toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-zA-Z0-9 ]/g, "")
-      .replace(/ /g, "-");
-  }
+  const quizName = sanitarizeString(quiz.title);
+  $: progress = $progressQuestionnaires[quizName];
 
-  const addQuiz = () => {
-    if($statusApp.questionnaires.filter(q => q.title == quiz.title ).length == 0){
-      $statusApp.questionnaires = [...$statusApp.questionnaires, {
-        title: quiz.title,
-        hitPercentage: null,
-        markedAnswers: [],
-        inProgress: true
-      }]
+  const createOrResetAttr = () => {
+    console.log(quizName)
+    $progressQuestionnaires[quizName] = {
+      completed: false,
+      markedAnswers: {},
     }
   }
-</script>
 
-<div class="container-quiz">
-  <img class="cover-image" src="{quiz.cover_image}" alt="cover imagem to quiz">
-  <div class="content">
-    <Link to="/quiz/{link()}" on:click={addQuiz}><h2 class="title-quiz">{quiz.title}</h2></Link>
-    <p class="description-quiz">{quiz.description}</p>
-    <div class="info-quiz">
-      <div class="info" title="Theme"><i class="fa-solid fa-tag"></i><span>{quiz.theme}</span></div>
-      <div class="info" title="Questions"><i class="fa-solid fa-flag"></i> <span>{quiz.questions.length}</span></div>
-      <div class="info" title="Version"><i class="fa-solid fa-code-branch"></i> <span>{quiz.version}</span></div>
+  let continueOrStart = 'Start';
+
+  progressQuestionnaires.subscribe(v => {
+    if($progressQuestionnaires[quizName]){
+      let countAnswers = Object.keys($progressQuestionnaires[quizName].markedAnswers).length;
+      let totalPossibleAnswers = $questionnaires.find(q => sanitarizeString(q.title) == quizName).questions.length;   
+      if($progressQuestionnaires[quizName].completed) continueOrStart = false;
+      if(countAnswers < totalPossibleAnswers) continueOrStart = 'Continue';
+      if(countAnswers == 0) continueOrStart = 'Start';
+    }
+  });
+
+</script>
+{#key quiz}
+  <div class="container-quiz" in:fly="{{ y: 200, duration: 1500, delay: id*250 }}">
+    <img class="cover-image" src="{quiz.cover_image}" alt="cover imagem to quiz">
+    <div class="content">
+      <h2 class="title-quiz">{quiz.title}</h2>
+      <p class="description-quiz">{quiz.description}</p>
+      <div class="footer">
+        <div class="actions">
+          {#if continueOrStart}
+            <div class="action" target="start" >
+              <Link to="/quiz/{sanitarizeString(quiz.title)}" on:click={createOrResetAttr}>
+                <i class="fa-solid fa-circle-play"></i>
+                {continueOrStart}
+              </Link>
+            </div>
+          {/if}
+          {#if progress && progress.completed}
+            <div class="action" target="result">
+              <Link to="/result/{sanitarizeString(quiz.title)}"><i class="fa-solid fa-square-poll-vertical"></i> Result</Link>
+            </div>
+            <div class="action" target="reset" on:click={createOrResetAttr}>
+              <Link to=""><i class="fa-solid fa-arrow-rotate-right"></i> Reset</Link>
+            </div>
+          {/if}
+        </div>
+        <div class="info-quiz">
+          <div class="info" title="Theme"><i class="fa-solid fa-tag"></i><span>{quiz.theme}</span></div>
+          <div class="info" title="Questions"><i class="fa-solid fa-flag"></i> <span>{quiz.questions.length}</span></div>
+          <div class="info" title="Version"><i class="fa-solid fa-code-branch"></i> <span>{quiz.version}</span></div>
+          <div class="info" title="Version"><i class="fa-solid fa-code-branch"></i> <span>{quiz.version}</span></div>
+          {#if progress && progress.completed}
+            <div class="info" title="Score"><i class="fa-solid fa-star"></i> <span>{parseFloat(progress.hitPercentage)}%</span></div>
+          {/if}
+        </div>
+      </div>
     </div>
   </div>
-</div>
+{/key}
 
 <style>
   .container-quiz{
@@ -52,7 +84,6 @@
   }
   .title-quiz{
     color: var(--secondary-color);
-    cursor: pointer;
   }
   .description-quiz{
     display: -webkit-box;
@@ -86,5 +117,40 @@
   }
   .info i {
     margin-right: .25rem;
+  }
+  .footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .actions{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+  .action{
+    margin-top: 1rem;
+    font-size: 1rem;
+    padding: .5rem .75rem;
+    color: white;
+    background-color: var(--secondary-color);
+    border: none;
+    outline: none;
+    border-radius: .25rem;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    display: flex;
+    gap: .25rem;
+    min-width: 91px;
+  }
+  .action[target="start"]{
+    background-color: var(--primary-color);
+  }
+  .action[target="result"]{
+    background-color: rgb(68, 124, 68);
+  }
+  .action[target="reset"]{
+    background-color: rgb(190, 77, 77);
   }
 </style>

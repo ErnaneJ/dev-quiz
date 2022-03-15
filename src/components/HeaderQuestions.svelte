@@ -1,11 +1,14 @@
 <script>
+  import { fly } from 'svelte/transition';
   export let title, subtitle;
 </script>
 
-<div class="header-question">
-  <h1 class="title">{title}</h1>
-  <p class="subtitle">{subtitle}</p>
-</div>
+{#key title}
+  <div class="header-question" in:fly="{{ y: -200, duration: 1500 }}">
+    <h1 class="title">{title}</h1>
+    <p class="subtitle">{subtitle}</p>
+  </div>
+{/key}
 
 <style>
   .header-question{

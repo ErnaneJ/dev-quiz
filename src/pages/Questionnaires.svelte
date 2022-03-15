@@ -4,8 +4,8 @@
 </script>
 
 <section class="container container-questionnaires">
-  {#each $questionnaires as quiz}  
-    <QuizCard {quiz}/>
+  {#each $questionnaires as quiz, i}  
+    <QuizCard bind:quiz id={i}/>
   {/each}
 </section>
 

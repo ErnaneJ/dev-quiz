@@ -7,7 +7,7 @@
   "questions": [
     {
       "statement": " Assume that the following code must have the stated execution result. Which option can be inserted into __(1)__",
-      "code": "__(1)__\nx.each_line { |line| puts line }\n[Execution Result]\napple\nbanana",
+      "code": "__(1)__\nx.each_line { |line| puts line }\n# [Execution Result]\napple\nbanana",
       "quantity_to_select": "1",
       "options": {
         "a": "require \"stringbuffer\"\nx = StringBuffer.new(\"apple\nbanana\n\")",

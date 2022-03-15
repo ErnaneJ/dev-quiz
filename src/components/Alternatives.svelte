@@ -1,19 +1,19 @@
 <script>
-  import { statusApp } from '../lib/stores';
-  export let question;
+  import { onMount } from 'svelte';
+  import { fly } from 'svelte/transition';
+  import { progressQuestionnaires, statusApp } from '../lib/stores';
+  import { sanitarizeString } from '../lib/helper';
 
-  let clear = false;
+  $: question = $statusApp.currentQuestion;
+  $: quiz = $statusApp.currentQuiz;
+  $: nameQuiz = sanitarizeString(quiz.title);
   $: options = Object.values(question.options);
 
-  const updateResponses = e => {
-    console.log($statusApp.questionnaires)
-  }
-
+  let clear = false;
   const checkAlternatives = e => {
     let cbxes = [];
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {if(checkbox.checked == true) cbxes.push(checkbox)});
     clear = cbxes.length > 0 ? true : false;
-
     if(cbxes.length > question.quantity_to_select){
       e.preventDefault();
       cbxes.forEach(checkbox => {
@@ -30,17 +30,51 @@
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
       checkbox.checked = false;
     });
+    selectAnswer();
   }
+
+  const checkMarkedQuestion = () => {
+    let answersMarkedInQuestion = $progressQuestionnaires[nameQuiz] ? $progressQuestionnaires[nameQuiz].markedAnswers[String(parseInt($statusApp.currentQuestionId))] : null;
+    if(answersMarkedInQuestion){
+      answersMarkedInQuestion.forEach(answer => {
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+          if(checkbox.getAttribute('data-value') == answer){
+            checkbox.checked = true;
+          }
+        });
+      });
+    }
+  }; 
+
+  const selectAnswer = () => {
+    let answers = [];
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      if(checkbox.checked == true) answers.push(checkbox.getAttribute('data-value'));
+    }); 
+    $progressQuestionnaires[nameQuiz].markedAnswers[String(parseInt($statusApp.currentQuestionId))] = answers;
+  }
+
+  const updateStatusQuestions = () => {
+    setTimeout(() => {
+      checkMarkedQuestion();
+    }, 0);
+  }
+
+  onMount(updateStatusQuestions)
+  statusApp.subscribe(updateStatusQuestions);
+  progressQuestionnaires.subscribe(updateStatusQuestions);
 </script>
 
-<div class="alternatives-container">
-  {#each options as alternative, i}
-    <label for="alternative-{i}" class="alternative" on:click={checkAlternatives}>
-      <input class="radio-input" on:change={updateResponses} data-value={Object.keys(question.options)[i]} type="checkbox" name="alternative" id="alternative-{i}">
-      <span class="text-alternative">{alternative}</span>
-    </label>
-  {/each}
-</div>
+{#key options}
+  <div class="alternatives-container" in:fly="{{ y: 200, duration: 1500, delay: 150 }}">
+    {#each options as alternative, i}
+      <label for="alternative-{i}" class="alternative" on:click={checkAlternatives} on:load={checkMarkedQuestion}>
+        <input class="checkbox-input" on:change={selectAnswer} data-value={Object.keys(question.options)[i]} type="checkbox" name="alternative" id="alternative-{i}">
+        <span class="text-alternative">{alternative}</span>
+      </label>
+    {/each}
+  </div>
+{/key}
 
 <span class="reset">
   {#if clear}
@@ -80,7 +114,7 @@
     cursor: pointer;
     padding-left: 3rem;
   }
-  .radio-input{
+  .checkbox-input{
     z-index: 9;
     -webkit-appearance: none;
     width: 20px;
@@ -92,12 +126,12 @@
     transform: translateX(40px);
     transition: background-color 300ms, border-color 300ms;
   }
-  .radio-input:checked{
+  .checkbox-input:checked{
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' fill='rgb(49,114,69)' viewBox='-10 -10 64.56 64.56'%3E%3Cpath d='M23.297 38.74a6.563 6.563 0 0 1-10.16.499L1.308 26.112a5.083 5.083 0 1 1 7.551-6.805l8.369 9.288a.617.617 0 0 0 .956-.047L35.386 5.217a5.083 5.083 0 1 1 8.181 6.032L23.297 38.74z'/%3E%3C/svg%3E"), transparent;
 		background-repeat: no-repeat;
 		border: 2px solid var(--alternative-letter-checked-color);
   }
-  .radio-input:checked + span.text-alternative{
+  .checkbox-input:checked + span.text-alternative{
     background-color: var(--alternative-checked-color);
     color: var(--alternative-letter-checked-color);
   }

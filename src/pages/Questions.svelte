@@ -4,6 +4,7 @@
   import HeaderQuestions from '../components/HeaderQuestions.svelte';
   import Alternatives from '../components/Alternatives.svelte';
   import ProgressBar from '../components/ProgressBar.svelte';
+  import QuestionCode from '../components/QuestionCode.svelte';
 
   const link = (title) => {
     return title.toLowerCase()
@@ -30,12 +31,7 @@
 
 <section class="container container-questions">
   <HeaderQuestions title={$statusApp.currentQuestion.statement} subtitle="SELECT UP TO {$statusApp.currentQuestion.quantity_to_select} OPTIONS"/>
-  <Alternatives question={$statusApp.currentQuestion}/>
+  <QuestionCode code={$statusApp.currentQuestion.code}/>
+  <Alternatives/>
   <ProgressBar countQuestions={$statusApp.currentQuiz.questions.length}/>
 </section>
-
-<style>
-  .container-questions{
-    margin-top: -10rem;
-  }
-</style>

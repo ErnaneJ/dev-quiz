@@ -1,6 +1,15 @@
 <script>
   import { Link } from "svelte-navigator";
-  import { statusApp } from '../lib/stores';
+  import { statusApp, progressQuestionnaires } from '../lib/stores';
+
+  let msgSaveButton = "Save Progress";
+  const saveProgress = () => {
+    window.localStorage.setItem("progressQuestionnaires", JSON.stringify($progressQuestionnaires))
+    msgSaveButton = "Saved! 🎉";
+    setTimeout(() => {
+      msgSaveButton = "Save Progress";
+    }, 500);
+  }
 </script>
 
 <svelte:head>
@@ -10,7 +19,7 @@
 <header>
   <Link to="/"><div class="logo">&#60;Dev.Quiz/&#62;</div></Link>
   <div class="page-name">{$statusApp.currentQuiz?.title ?? "Questionnaires available"}</div>
-  <button class="save-progress">Save Progress</button>
+  <button on:click={saveProgress} class="save-progress">{msgSaveButton}</button>
 </header>
 
 <style>
@@ -53,5 +62,6 @@
     border: none;
     cursor: pointer;
     font-weight: 600;
+    cursor: pointer;
   }
 </style>

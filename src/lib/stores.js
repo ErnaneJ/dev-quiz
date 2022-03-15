@@ -7,6 +7,17 @@ export const statusApp = writable({
     currentQuiz: null,
     currentQuestionId: 0,
     currentQuestion: 0,
-    questionnaires: []
   }
 );
+
+const storedProgressQuestionnaires = JSON.parse(window.localStorage.getItem('progressQuestionnaires')) ?? {};
+export const progressQuestionnaires = writable(storedProgressQuestionnaires);
+
+progressQuestionnaires.subscribe(value => {
+  console.log(value)
+  window.localStorage.setItem('progressQuestionnaires', JSON.stringify(value))
+});
+
+// statusApp.subscribe(value => {
+//   console.log(value)
+// });

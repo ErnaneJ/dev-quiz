@@ -15,7 +15,10 @@
     return `/quiz/${$params.quiz}/`;
   }
   $: nextQuestion = () => {
-    if(parseInt($statusApp.currentQuestionId) == parseInt(countQuestions)) {msgButton = "Check result! "; return `/quiz/${$params.quiz}/result`};
+    if(parseInt($statusApp.currentQuestionId) == parseInt(countQuestions)) {
+      msgButton = "Check result!";
+      return `/result/${$params.quiz}`
+    };
     if(parseInt($statusApp.currentQuestionId) < parseInt(countQuestions)) {msgButton = "Next question"; return `/quiz/${$params.quiz}/question/${$statusApp.currentQuestionId+1}`};
   }
 </script>
