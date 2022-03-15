@@ -1,9 +1,9 @@
 {
-  "title": "Ruby Association Certified Ruby Examination Silver Sample Questions",
+  "title": "Ruby Association Certified Ruby Examination Gold Sample Questions",
   "description": "This is a certification of a deeper understanding of the topics covered under Silver certification (syntax, object oriented programming, embedded libraries, operating environments, etc.) in addition to knowledge of the standard Ruby libraries and knowledge related to classes and objects required for Ruby application design.", 
   "theme": "Language Ruby",
   "version": "2.1",
-  "cover_image": "https://www.ruby.or.jp/assets/images/ja/certification/examination/logo_silver_v21.png",
+  "cover_image": "https://www.ruby.or.jp/assets/images/ja/certification/examination/logo_gold_v21.png",
   "questions": [
     {
       "statement": " Assume that the following code must have the stated execution result. Which option can be inserted into __(1)__",

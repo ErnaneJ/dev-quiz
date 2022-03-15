@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { Router, Route, Link } from "svelte-navigator";
+  import { Router, Route } from "svelte-navigator";
   import { statusApp } from './lib/stores';
   import Header from "./components/Header.svelte";
   import Questions from "./pages/Questions.svelte";

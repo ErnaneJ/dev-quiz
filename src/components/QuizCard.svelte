@@ -58,7 +58,6 @@
           <div class="info" title="Theme"><i class="fa-solid fa-tag"></i><span>{quiz.theme}</span></div>
           <div class="info" title="Questions"><i class="fa-solid fa-flag"></i> <span>{quiz.questions.length}</span></div>
           <div class="info" title="Version"><i class="fa-solid fa-code-branch"></i> <span>{quiz.version}</span></div>
-          <div class="info" title="Version"><i class="fa-solid fa-code-branch"></i> <span>{quiz.version}</span></div>
           {#if progress && progress.completed}
             <div class="info" title="Score"><i class="fa-solid fa-star"></i> <span>{parseFloat(progress.hitPercentage)}%</span></div>
           {/if}

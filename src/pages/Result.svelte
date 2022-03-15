@@ -15,7 +15,7 @@
     checkHitPercentage();
   }
 
-  let hitPercentage = 0.00;
+  let hitPercentage = 0.00, topics = [];
   const checkHitPercentage = () => {
     let score = 0
     quiz.questions.forEach((question, index) => { 
@@ -23,7 +23,8 @@
         if(question.answer.options.includes(markedAnswer)){
           score += (1/parseInt(question.quantity_to_select));
         }
-      })
+      });
+      if(topics.length < 6 && question.topics) topics = topics.concat(question.topics).slice(0,6);
     });
     let percentage = ((score * 100)/quiz.questions.length);
     let timer = setInterval(() => {
@@ -32,10 +33,12 @@
         clearInterval(timer);
       };
     }, 10);
+    
     $progressQuestionnaires[nameQuiz] = {
       ...$progressQuestionnaires[nameQuiz],
       completed: true,
-      hitPercentage: parseFloat(percentage).toFixed(3)
+      hitPercentage: parseFloat(percentage),
+      topics: topics
     }
   }
 </script>
@@ -51,7 +54,7 @@
       {hitPercentage.toFixed(2)}%
     </div>
 
-    <p class="text-congratulations" in:fly="{{ y: 500, duration: 1300}}">
+    <p class="text-congratulations" in:fly="{{ y: 500, duration: 1300,}}">
       Congratulations! 🎉 You got {hitPercentage.toFixed(2)}% correct on the quiz. 👏
     </p>
 
@@ -61,14 +64,58 @@
       </Link>
     </div>
     
-
-    <!-- <div class="topic-list">
-
-    </div> -->
+    {#if topics.length != 0}
+      <div class="container-topics" in:fly="{{ y: 500, duration: 1500, delay: 100}}">
+        <h2 class="title-topic">
+          For a better score study the following topics:
+        </h2>
+        <div class="topic-list">
+          {#each topics as topic}
+            <div class="topic">
+              <span class="text-topic">{topic}</span>
+            </div>
+          {/each}
+        </div> 
+      </div>
+    {/if}
   </div>
 {/key}
 
 <style>
+  .container-topics{margin-top: 1.5rem}
+  .title-topic{
+    color: var(--secondary-color);
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  .topic-list{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  .topic{
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      cursor: pointer;
+      user-select: none;
+    }
+  .text-topic{
+    font-weight: bold;
+    padding: 1.25rem 1rem;
+    width: 100%;
+    border-radius: .5rem;
+    background-color: var(--alternative-color);
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-transform: capitalize;
+  }
 .result-container{
   display: flex;
   align-items: center;
