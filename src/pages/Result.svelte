@@ -2,7 +2,7 @@
   import { useParams } from "svelte-navigator";
   import { Link } from "svelte-navigator";
   import { fly } from 'svelte/transition';
-  import { questionnaires, progressQuestionnaires } from '../lib/stores';
+  import { statusApp, questionnaires, progressQuestionnaires } from '../lib/stores';
   import { sanitarizeString } from '../lib/helper';
   
   $: params = useParams();
@@ -10,8 +10,11 @@
   $: if(params){
     nameQuiz = $params.quiz;
     quiz = $questionnaires.find(el => sanitarizeString(el.title) == nameQuiz);
+
     quizProgress = $progressQuestionnaires[nameQuiz];
 
+    if(!quiz || !quizProgress || !quizProgress.completed){window.location = '/'}
+    $statusApp.titleApp = "Result - "+ quiz.title;
     checkHitPercentage();
   }
 
@@ -58,11 +61,19 @@
       Congratulations! 🎉 You got {hitPercentage.toFixed(2)}% correct on the quiz. 👏
     </p>
 
-    <div class="back-to-home" in:fly="{{ y: 500, duration: 1300}}">
-      <Link to="/" >
-        <i class="fa-solid fa-house-chimney"></i> Back to home!
-      </Link>
+    <div class="actions-result">
+      <div class="action-result" in:fly="{{ y: 500, duration: 1300}}">
+        <Link to="/" >
+          <i class="fa-solid fa-house-chimney"></i> Back to Home!
+        </Link>
+      </div>
+      <div class="action-result" in:fly="{{ y: 500, duration: 1300}}">
+        <Link to="/answers/{nameQuiz}" >
+          <i class="fa-solid fa-square-poll-vertical"></i> Compare Answers!
+        </Link>
+      </div>
     </div>
+    
     
     {#if topics.length != 0}
       <div class="container-topics" in:fly="{{ y: 500, duration: 1500, delay: 100}}">
@@ -97,12 +108,10 @@
     width: 100%;
   }
   .topic{
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      cursor: pointer;
-      user-select: none;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
   .text-topic{
     font-weight: bold;
     padding: 1.25rem 1rem;
@@ -113,7 +122,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     text-transform: capitalize;
   }
 .result-container{
@@ -128,7 +136,13 @@
   margin-top: 3rem;
   color: var(--secondary-color)
 }
-.back-to-home{
+.actions-result{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.action-result{
   margin-top: 1.5rem;
   padding: 1rem 1.5rem;
   color: white;
@@ -140,7 +154,7 @@
   cursor: pointer;
   font-size: 1rem;
 }
-:global(.back-to-home a){
+:global(.action-result a){
   color: white;
 }
 .fa-house-chimney{

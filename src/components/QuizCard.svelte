@@ -55,9 +55,10 @@
           {/if}
         </div>
         <div class="info-quiz">
-          <div class="info" title="Theme"><i class="fa-solid fa-tag"></i><span>{quiz.theme}</span></div>
-          <div class="info" title="Questions"><i class="fa-solid fa-flag"></i> <span>{quiz.questions.length}</span></div>
-          <div class="info" title="Version"><i class="fa-solid fa-code-branch"></i> <span>{quiz.version}</span></div>
+          {#if quiz.language}<div class="info" title="Language"><i class="fa-solid fa-language"></i> <span>{quiz.language}</span></div>{/if}
+          {#if quiz.theme}<div class="info" title="Theme"><i class="fa-solid fa-tag"></i><span>{quiz.theme}</span></div>{/if}
+          {#if quiz.questions}<div class="info" title="Questions"><i class="fa-solid fa-flag"></i> <span>{quiz.questions.length}</span></div>{/if}
+          {#if quiz.version}<div class="info" title="Version"><i class="fa-solid fa-code-branch"></i> <span>{quiz.version}</span></div>{/if}
           {#if progress && progress.completed}
             <div class="info" title="Score"><i class="fa-solid fa-star"></i> <span>{parseFloat(progress.hitPercentage)}%</span></div>
           {/if}

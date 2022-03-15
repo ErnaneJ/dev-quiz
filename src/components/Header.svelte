@@ -13,12 +13,12 @@
 </script>
 
 <svelte:head>
-  <title>&#60;Dev.Quiz/&#62; | {$statusApp.currentQuiz?.title ?? "Questionnaires"}</title>
+  <title>&#60;Dev.Quiz/&#62; | {$statusApp.titleApp}</title>
 </svelte:head>
 
 <header>
   <Link to="/"><div class="logo">&#60;Dev.Quiz/&#62;</div></Link>
-  <div class="page-name">{$statusApp.currentQuiz?.title ?? "Questionnaires"}</div>
+  <div class="page-name">{$statusApp.titleApp}</div>
   <button on:click={saveProgress} class="save-progress">{msgSaveButton}</button>
 </header>
 

@@ -1,25 +1,30 @@
 <script>
   import { Link, useParams } from "svelte-navigator";
-  import { statusApp } from '../lib/stores';
+  import { statusApp, progressQuestionnaires } from '../lib/stores';
 
-  export let countQuestions;
+  export let countQuestions, responses;
 
   let msgButton = "Next question";
+  let prefix = responses ? 'answers' : 'quiz';
   
   $: params = useParams();
   $: percent = parseInt($statusApp.currentQuestionId) == 1 ? 0 : (parseInt($statusApp.currentQuestionId) * 100)/countQuestions;
 
   $: backQuestion = () => {
-    if(parseInt($statusApp.currentQuestionId) == 2) return `/quiz/${$params.quiz}/`;
-    if(parseInt($statusApp.currentQuestionId) > 1) return `/quiz/${$params.quiz}/question/${$statusApp.currentQuestionId-1}`;
-    return `/quiz/${$params.quiz}/`;
+    if(parseInt($statusApp.currentQuestionId) == 2) return `/${prefix}/${$params.quiz}/`;
+    if(parseInt($statusApp.currentQuestionId) > 1) return `/${prefix}/${$params.quiz}/question/${$statusApp.currentQuestionId-1}`;
+    return `/${prefix}/${$params.quiz}/`;
   }
   $: nextQuestion = () => {
     if(parseInt($statusApp.currentQuestionId) == parseInt(countQuestions)) {
       msgButton = "Check result!";
       return `/result/${$params.quiz}`
     };
-    if(parseInt($statusApp.currentQuestionId) < parseInt(countQuestions)) {msgButton = "Next question"; return `/quiz/${$params.quiz}/question/${$statusApp.currentQuestionId+1}`};
+    if(parseInt($statusApp.currentQuestionId) < parseInt(countQuestions)) {msgButton = "Next question"; return `/${prefix}/${$params.quiz}/question/${$statusApp.currentQuestionId+1}`};
+  }
+
+  const endQuiz = () => {
+    $progressQuestionnaires[$params.quiz].completed = true;
   }
 </script>
 
@@ -35,7 +40,7 @@
       {parseFloat(percent).toFixed(2)}% complete. Keep it up!
     </span>
   </div>
-  <div class="next">
+  <div class="next" on:click={endQuiz}>
     <Link to="{nextQuestion()}">
       <span>{msgButton}</span> <i class="fa-solid fa-arrow-right"></i>
     </Link>

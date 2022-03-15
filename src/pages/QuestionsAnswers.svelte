@@ -2,7 +2,7 @@
   import { useParams } from "svelte-navigator";
   import { questionnaires, statusApp } from '../lib/stores';
   import HeaderQuestions from '../components/HeaderQuestions.svelte';
-  import Alternatives from '../components/Alternatives.svelte';
+  import AlternativesAnswer from '../components/AlternativesAnswer.svelte';
   import ProgressBar from '../components/ProgressBar.svelte';
   import QuestionCode from '../components/QuestionCode.svelte';
 
@@ -24,15 +24,16 @@
       currentQuiz: currentQuiz,
       currentQuestionId: currentQuestionId,
       currentQuestion: currentQuiz.questions[currentQuestionId - 1],
-      titleApp: currentQuiz.title
+      titleApp: "Answers - " + currentQuiz.title
     }
   });
-  
+
+   
 </script>
 
 <section class="container container-questions">
   <HeaderQuestions title={$statusApp.currentQuestion.statement} subtitle="SELECT UP TO {$statusApp.currentQuestion.quantity_to_select} OPTIONS"/>
   <QuestionCode code={$statusApp.currentQuestion.code}/>
-  <Alternatives/>
-  <ProgressBar countQuestions={$statusApp.currentQuiz.questions.length}/>
+  <AlternativesAnswer/>
+  <ProgressBar responses={true} countQuestions={$statusApp.currentQuiz.questions.length}/>
 </section>

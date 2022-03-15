@@ -7,6 +7,7 @@ export const statusApp = writable({
     currentQuiz: null,
     currentQuestionId: 0,
     currentQuestion: 0,
+    titleApp: "Questionnaires available"
   }
 );
 

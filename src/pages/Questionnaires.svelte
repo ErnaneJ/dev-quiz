@@ -1,6 +1,7 @@
 <script>
-  import { questionnaires } from '../lib/stores';
+  import { questionnaires, statusApp } from '../lib/stores';
   import QuizCard from '../components/QuizCard.svelte'
+  $statusApp.titleApp = "Questionnaires";
 </script>
 
 <section class="container container-questionnaires">
