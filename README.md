@@ -1,5 +1,5 @@
 <h1 align="center">
-   <img src=".github/logo.png" alt="Logo do projeto escrito 'Dev.Quiz' em azul" width="50%"/>
+   <img src=".github/logo.png" alt="Logo do projeto escrito 'Dev.Quiz' em azul" width="30%"/>
 </h1>
 
 <div align="center">
@@ -71,13 +71,12 @@ Essa aplicação possui um potêncial para crescer ainda mais. Portanto, abaixo 
   - [ ] Implementação de uma análise gráfica do resultado a partir de um tempo de execução linear do resultado;
   - [ ] Possível melhoria na interface com criação de landding page para o projeto;
   - [ ] Criação de API para o projeto contando com um simples CRUD dos questionários;
+  - [ ] ....
   
 Além disso, o estado atual do APP é consumir os dados de questionários em [JSON](https://www.json.org/json-en.html) presentes na pasta [content]([/content](https://github.com/ErnaneJ/devQuiz/tree/master/content)). Sinta-se a vontade para adicionar algum questionário, seguindo o [modelo de exemplo](https://github.com/ErnaneJ/devQuiz/blob/master/example.json).
-
-...
 
 ---
 
 <div align="center">
-  Desenvolvido com ❤ por <a target="_blank" rel="noopener" href="https://www.ernane.dev/">Ernane Ferreira</a>. 👋🏻 Insentivado e idealizado por <a target="_blank" rel="noopener" href="https://www.seguroviagem.srv.br/">Real Seguro Viagem</a>. 💜
+  Desenvolvido com ❤ por <a target="_blank" rel="noopener" href="https://www.ernane.dev/">Ernane Ferreira</a>. 👋🏻<br/> Insentivado e idealizado por <a target="_blank" rel="noopener" href="https://www.seguroviagem.srv.br/">Real Seguro Viagem</a>. 💜
 </div>
