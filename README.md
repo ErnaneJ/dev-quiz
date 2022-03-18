@@ -28,7 +28,7 @@ Esta aplicação foi desenvolvida com as seguintes tecnologias:
 
 ## 💻 Projeto
 
-Aplicação de centralização de questionários criado primordialmente para exercício do [SveltKit](https://kit.svelte.dev/). Com o intuito de faciliar primeiramente a execução do exame de competência para [certificação em Ruby prata ou bronze](https://www.ruby.or.jp/en/certification/examination/) o mesmo foi expandido para aceitar qualquer tipo de questionário.
+Aplicação de centralização de questionários criado primordialmente para exercício do [SveltKit](https://kit.svelte.dev/). Com o intuito de facilitar primeiramente a execução do exame de competência para [certificação em Ruby prata ou bronze](https://www.ruby.or.jp/en/certification/examination/) o mesmo foi expandido para aceitar qualquer tipo de questionário.
 
 ### 📁 Features
 - [x] Possibilidade de acessar multiplos questionários;
@@ -47,7 +47,7 @@ Aplicação de centralização de questionários criado primordialmente para exe
 - Clone este repositorio:
 
 ```bash
-$ git clone [git@github.com:ErnaneJ/devQuiz.git](https://github.com/ErnaneJ/devQuiz.git)
+$ git clone https://github.com/ErnaneJ/devQuiz.git
 ```
 
 - Instale todas as dependências:
