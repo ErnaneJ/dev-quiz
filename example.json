@@ -1,0 +1,26 @@
+{
+  "title": "Titulo do questionário",
+  "description": "Descrição do questionário", 
+  "theme": "Temárica do questionário",
+  "version": "Versão atual (1.0, 1.1, 2.8, ...)",
+  "language": "pt-BR",
+  "cover_image": "URL da imagem de capa que represente o questionário",
+  "questions": [
+    {
+      "statement": "Enunciado da questão",
+      "code": "Código caso a questão necessite",
+      "quantity_to_select": "qua,ntidade de quespostas pssíveis (1, 2, ..)",
+      "options": {
+        "a": "alternativa (a)",
+        "b": "alternativa (b)",
+        "c": "alternativa (c)",
+        "d": "alternativa (d)... < (h)"
+      },
+      "answer": {
+        "options": ["array de respostas possíveis a partir da quantidade passada no parâmetro acima"],
+        "description": "Descrição que motive essa resposta"
+      },
+      "topics": ["listagem de tópicos sobre a questão"]
+    }
+  ]
+}
